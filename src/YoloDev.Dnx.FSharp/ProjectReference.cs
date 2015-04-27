@@ -121,12 +121,12 @@ namespace YoloDev.Dnx.FSharp
           args.Add($"-r:{fileName}");
         }
 
-        //System.Diagnostics.Debugger.Launch();
         var scs = new SimpleSourceCodeServices();
         var result = scs.Compile(args.ToArray());
         var errors = result.Item1;
         var resultCode = result.Item2;
 
+        System.Diagnostics.Debugger.Launch();
         MemoryStream assembly = null;
         MemoryStream pdb = null;
         MemoryStream xml = null;
@@ -290,6 +290,9 @@ namespace YoloDev.Dnx.FSharp
 
     public void EmitTo(string dir, string name)
     {
+      if (!Directory.Exists(dir))
+        Directory.CreateDirectory(dir);
+
       var assemblyName = Path.Combine(dir, $"{name}.dll");
       using (var fs = File.Open(assemblyName, FileMode.OpenOrCreate, FileAccess.Write))
         CopyAssembly(fs);

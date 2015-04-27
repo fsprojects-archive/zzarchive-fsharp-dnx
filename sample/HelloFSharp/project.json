@@ -11,5 +11,5 @@
     "compilerAssembly": "YoloDev.Dnx.FSharp",
     "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectReferenceProvider"
   },
-  "code": ["hello.fs"]
+  "compile": ["hello.fs"]
 }
