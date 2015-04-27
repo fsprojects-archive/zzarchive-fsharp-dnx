@@ -83,7 +83,8 @@ namespace YoloDev.Dnx.FSharp
         }
 
         var outFileName = $"{_project.Name}.dll";
-        var outFile = files.CreateFile(outFileName);
+        var outDir = files.CreateDir();
+        var outFile = Path.Combine(outDir, outFileName);
         var args = new List<string>();
         args.Add("fsc.exe");
         args.Add($"--out:{outFile}");
@@ -105,8 +106,11 @@ namespace YoloDev.Dnx.FSharp
           string fileName = null;
           var projectRef = reference as IMetadataProjectReference;
           if (projectRef != null)
-            using (var refStream = files.CreateStream(out fileName))
-              projectRef.EmitReferenceAssembly(refStream);
+          {
+            var dir = files.CreateDir();
+            projectRef.EmitAssembly(dir);
+            fileName = Path.Combine(dir, $"{projectRef.Name}.dll");
+          }
 
           var fileRef = reference as IMetadataFileReference;
           if (fileRef != null)
@@ -117,6 +121,7 @@ namespace YoloDev.Dnx.FSharp
           args.Add($"-r:{fileName}");
         }
 
+        //System.Diagnostics.Debugger.Launch();
         var scs = new SimpleSourceCodeServices();
         var result = scs.Compile(args.ToArray());
         var errors = result.Item1;
@@ -302,10 +307,12 @@ namespace YoloDev.Dnx.FSharp
   class TempFiles : IDisposable
   {
     readonly List<string> _files;
+    readonly List<string> _dirs;
 
     public TempFiles()
     {
       _files = new List<string>();
+      _dirs = new List<string>();
     }
 
     public Stream CreateStream(out string path)
@@ -315,13 +322,12 @@ namespace YoloDev.Dnx.FSharp
       return File.Open(path, FileMode.Truncate, FileAccess.Write);
     }
 
-    public string CreateFile(string name)
+    public string CreateDir()
     {
       var path = Path.GetTempFileName();
       File.Delete(path);
       Directory.CreateDirectory(path);
-      path = Path.Combine(path, name);
-      _files.Add(path);
+      _dirs.Add(path);
       return path;
     }
 
@@ -330,6 +336,10 @@ namespace YoloDev.Dnx.FSharp
       foreach (var file in _files)
         if (File.Exists(file))
           File.Delete(file);
+
+      foreach (var dir in _dirs)
+        if (Directory.Exists(dir))
+          Directory.Delete(dir, true);
     }
   }
 }

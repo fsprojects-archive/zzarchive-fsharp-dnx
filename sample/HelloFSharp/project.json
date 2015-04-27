@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "dependencies": {
+    "YoloDev.Dnx.FSharp": { "type": "build", "version": "" }
+  },
+  "frameworks": {
+    "dnx451": { }
+  },
+  "compiler": {
+    "name": "F#",
+    "compilerAssembly": "YoloDev.Dnx.FSharp",
+    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectReferenceProvider"
+  },
+  "code": ["hello.fs"]
+}
