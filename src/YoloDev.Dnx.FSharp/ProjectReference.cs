@@ -126,7 +126,7 @@ namespace YoloDev.Dnx.FSharp
         var errors = result.Item1;
         var resultCode = result.Item2;
 
-        System.Diagnostics.Debugger.Launch();
+        //System.Diagnostics.Debugger.Launch();
         MemoryStream assembly = null;
         MemoryStream pdb = null;
         MemoryStream xml = null;
