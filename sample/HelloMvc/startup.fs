@@ -7,19 +7,11 @@ open Microsoft.Framework.Logging
 open Microsoft.AspNet.Hosting
 
 type Startup(env: IHostingEnvironment) =
-  do printfn "Env name: %s" env.EnvironmentName
-
-  let configureServices (services: IServiceCollection) =
-    printfn "Configuring services"
-    services.AddMvc ()
-    ()
 
   // Set up application services
   member public x.ConfigureServices (services: IServiceCollection) =
-    configureServices services
-
-  member public x.ConfigureDevelopmentServices (services: IServiceCollection) =
-    configureServices services
+    services.AddMvc ()
+    ()
 
   // Configure pipeline
   member public x.Configure (app: IApplicationBuilder, loggerFactory: ILoggerFactory) =
