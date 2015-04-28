@@ -49,11 +49,6 @@ namespace YoloDev.Dnx.FSharp
 
     public IDiagnosticResult GetDiagnostics() => _compile.Value.Diagnostics;
 
-    public void EmitReferenceAssembly(Stream stream)
-    {
-      _compile.Value.CopyAssembly(stream);
-    }
-
     public IDiagnosticResult EmitAssembly(string outputPath)
     {
       var compile = _compile.Value;
