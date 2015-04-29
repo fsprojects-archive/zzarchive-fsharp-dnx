@@ -1,0 +1,22 @@
+version: "1.0.0-beta5-{build}"
+
+# Fix line endings in Windows. (runs before repo cloning)
+init:
+  - git config --global core.autocrlf input
+
+# this turns of AppVeyor automatic searching for test-assemblies, not the actual testing
+test: off
+
+build_script:
+  - set DNX_BUILD_VERSION=000%APPVEYOR_BUILD_NUMBER% #temp
+  - set DNX_BUILD_VERSION=%DNX_BUILD_VERSION:~-4%
+  - build.cmd
+
+artifacts:
+  - path: artifacts\build\*.nupkg
+
+deploy:
+  - provider: Environment
+    name: yolodev
+    on:
+      branch: master

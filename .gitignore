@@ -8,6 +8,8 @@
 *.sln.docstates
 
 project.lock.json
+.nuget
+artifacts
 
 # Build results
 [Dd]ebug/

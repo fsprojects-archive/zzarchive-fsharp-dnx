@@ -1,0 +1,9 @@
+var VERSION='1.0'
+var FULL_VERSION='1.0'
+var AUTHORS='YoloDev'
+
+use-standard-lifecycle
+k-standard-goals
+
+#xml-docs-test .clean .build-compile description='Check generated XML documentation files for errors' target='test'
+  k-xml-docs-test
