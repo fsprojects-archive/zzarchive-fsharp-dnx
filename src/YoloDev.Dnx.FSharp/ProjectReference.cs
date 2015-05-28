@@ -68,10 +68,13 @@ namespace YoloDev.Dnx.FSharp
 
     private FSharpCompilationResult Emit()
     {
-      using(var files = new TempFiles())
+      using (new ResolveHooker())
+      using (var files = new TempFiles())
       {
         var sharedSources = _project.Files.SharedFiles;
-        var sources = _project.Files.SourceFiles;
+        // The files gotten from DNX are either sorted alphabetically, or randomly.
+        // So to ensure consistency, sort by ourself.
+        var sources = _project.Files.SourceFiles.OrderBy(f => f, StringComparer.OrdinalIgnoreCase);
 
         if (sharedSources.Any())
         {
@@ -151,6 +154,53 @@ namespace YoloDev.Dnx.FSharp
     }
   }
 
+  // HUGE UGLY HACK. NEEDS TO BE REMOVED.
+  class ResolveHooker : IDisposable
+  {
+    readonly object l = new object();
+    bool inner = false;
+
+    public ResolveHooker()
+    {
+      AppDomain.CurrentDomain.AssemblyResolve += HandleResolve;
+    }
+
+    public void Dispose()
+    {
+      AppDomain.CurrentDomain.AssemblyResolve -= HandleResolve;
+    }
+
+    private System.Reflection.Assembly HandleResolve(object sender, ResolveEventArgs args)
+    {
+      if (args.Name.StartsWith("FSharp.Core", StringComparison.OrdinalIgnoreCase))
+      {
+        lock (l)
+        {
+          if (inner)
+          {
+            return null;
+          }
+
+          inner = true;
+        }
+
+        try
+        {
+          return System.Reflection.Assembly.Load("FSharp.Core");
+        }
+        finally
+        {
+          lock(l)
+          {
+            inner = false;
+          }
+        }
+      }
+
+      return null;
+    }
+  }
+
   class FSharpSourceReference : ISourceReference
   {
     readonly string _path;
@@ -166,38 +216,80 @@ namespace YoloDev.Dnx.FSharp
 
   class FSharpDiagnosticResult : IDiagnosticResult
   {
-    readonly IImmutableList<ICompilationMessage> _messages;
+    readonly IImmutableList<FSharpCompilationMessage> _messages;
     readonly bool? _success;
 
     public bool Success => _success.HasValue ? _success.Value : !_messages.Any(m => m.Severity == CompilationMessageSeverity.Error);
 
-    public IEnumerable<ICompilationMessage> Diagnostics => _messages;
+    public IEnumerable<ICompilationMessage> Diagnostics => _messages.Cast<ICompilationMessage>();
+    public IImmutableList<FSharpCompilationMessage> Messages => _messages;
 
-    public FSharpDiagnosticResult(IImmutableList<ICompilationMessage> messages)
+    public FSharpDiagnosticResult(IImmutableList<FSharpCompilationMessage> messages)
     {
       _messages = messages;
       _success = null;
     }
 
-    public FSharpDiagnosticResult(bool success, IImmutableList<ICompilationMessage> messages)
+    public FSharpDiagnosticResult(bool success, IImmutableList<FSharpCompilationMessage> messages)
     {
       _messages = messages;
       _success = success;
     }
 
-    internal static IDiagnosticResult Error(string projectPath, string errorMessage)
+    internal static FSharpDiagnosticResult Error(string projectPath, string errorMessage)
     {
-      var message = (ICompilationMessage)FSharpCompilationMessage.Error(projectPath, errorMessage);
+      var message = FSharpCompilationMessage.Error(projectPath, errorMessage);
       return new FSharpDiagnosticResult(ImmutableList.Create(message));
     }
 
-    internal static IDiagnosticResult CompilationResult(int resultCode, IEnumerable<FSharpErrorInfo> errors)
+    internal static FSharpDiagnosticResult CompilationResult(int resultCode, IEnumerable<FSharpErrorInfo> errors)
     {
       var success = resultCode == 0;
       return new FSharpDiagnosticResult(
         success,
         errors.Select(FSharpCompilationMessage.CompilationMessage).ToImmutableList());
     }
+  }
+
+  class FSharpCompilationException : Exception, ICompilationException
+  {
+    readonly ImmutableList<FSharpCompilationFailure> _failures;
+
+    public FSharpCompilationException(IEnumerable<FSharpCompilationMessage> diagnostics)
+      : base(GetErrorMessage(diagnostics))
+    {
+      _failures = diagnostics.Where(d => d.Severity == CompilationMessageSeverity.Error)
+                             .GroupBy(d => d.SourceFilePath, StringComparer.OrdinalIgnoreCase)
+                             .Select(g => new FSharpCompilationFailure(g.Key, g))
+                             .ToImmutableList();
+    }
+
+    public IEnumerable<ICompilationFailure> CompilationFailures => _failures.Cast<ICompilationFailure>();
+
+    static string GetErrorMessage(IEnumerable<FSharpCompilationMessage> diagnostics)
+      => string.Join(Environment.NewLine,
+        diagnostics.Select(d => d.FormattedMessage));
+  }
+
+  class FSharpCompilationFailure : ICompilationFailure
+  {
+    readonly string _filePath;
+    readonly string _fileContent;
+    readonly ImmutableList<FSharpCompilationMessage> _messages;
+
+    public FSharpCompilationFailure(
+      string filePath,
+      IEnumerable<FSharpCompilationMessage> messages)
+    {
+      _filePath = filePath;
+      _fileContent = File.Exists(filePath) ? File.ReadAllText(filePath) : null;
+      _messages = messages.ToImmutableList();
+    }
+
+    public string CompiledContent => null;
+    public string SourceFilePath => _filePath;
+    public string SourceFileContent => _fileContent;
+    public IEnumerable<ICompilationMessage> Messages => _messages.Cast<ICompilationMessage>();
   }
 
   class FSharpCompilationMessage : ICompilationMessage
@@ -239,12 +331,12 @@ namespace YoloDev.Dnx.FSharp
       _severity = severity;
     }
 
-    internal static ICompilationMessage Error(string projectPath, string error)
+    internal static FSharpCompilationMessage Error(string projectPath, string error)
     {
       return new FSharpCompilationMessage(1, 1, 1, 1, projectPath, error, CompilationMessageSeverity.Error);
     }
 
-    internal static ICompilationMessage CompilationMessage(FSharpErrorInfo message)
+    internal static FSharpCompilationMessage CompilationMessage(FSharpErrorInfo message)
     {
       var severity = message.Severity.IsError ?
         CompilationMessageSeverity.Error :
@@ -266,10 +358,10 @@ namespace YoloDev.Dnx.FSharp
     readonly MemoryStream _assembly;
     readonly MemoryStream _pdb;
     readonly MemoryStream _xml;
-    readonly IDiagnosticResult _diagnostics;
+    readonly FSharpDiagnosticResult _diagnostics;
 
     public FSharpCompilationResult(
-      IDiagnosticResult diagnostics,
+      FSharpDiagnosticResult diagnostics,
       MemoryStream assembly,
       MemoryStream pdb,
       MemoryStream xml)
@@ -284,12 +376,22 @@ namespace YoloDev.Dnx.FSharp
 
     public void CopyAssembly(Stream stream)
     {
+      if (_assembly == null)
+      {
+        throw new FSharpCompilationException(_diagnostics.Messages);
+      }
+
       _assembly.Seek(0, SeekOrigin.Begin);
       _assembly.CopyTo(stream);
     }
 
     public void EmitTo(string dir, string name)
     {
+      if (_assembly == null)
+      {
+        throw new FSharpCompilationException(_diagnostics.Messages);
+      }
+
       if (!Directory.Exists(dir))
         Directory.CreateDirectory(dir);
 
@@ -302,6 +404,11 @@ namespace YoloDev.Dnx.FSharp
 
     public System.Reflection.Assembly Load(IAssemblyLoadContext loadContext)
     {
+      if (_assembly == null)
+      {
+        throw new FSharpCompilationException(_diagnostics.Messages);
+      }
+
       _assembly.Seek(0, SeekOrigin.Begin);
       return loadContext.LoadStream(_assembly, null);
     }
