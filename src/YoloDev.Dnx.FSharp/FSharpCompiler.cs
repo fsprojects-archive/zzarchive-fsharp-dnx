@@ -16,7 +16,7 @@ namespace YoloDev.Dnx.FSharp
 {
   public class FSharpCompiler
   {
-    const string PROJECT_FILE_NAME = "fsharp.project";
+    const string PROJECT_FILE_NAME = "project.fsharp.json";
 
     static Lazy<bool> _supportsPdbGeneration = new Lazy<bool>(CheckPdbGenerationSupport);
     internal static bool SupportsPdbGeneration => _supportsPdbGeneration.Value;
