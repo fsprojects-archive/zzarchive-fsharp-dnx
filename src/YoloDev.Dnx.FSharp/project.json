@@ -17,5 +17,9 @@
     "dnx451": {
       "frameworkAssemblies": { "System.Runtime": "" }
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YoloDev/YoloDev.Dnx.FSharp.git"
   }
 }
