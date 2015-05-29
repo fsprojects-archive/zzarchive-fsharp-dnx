@@ -20,10 +20,18 @@ namespace YoloDev.Dnx.FSharp
       Func<ILibraryExport> referenceResolver,
       Func<IList<ResourceDescriptor>> resourcesResolver)
     {
+      var export = referenceResolver();
+      if (export == null)
+      {
+          return null;
+      }
+
+      var incomingReferences = export.MetadataReferences;
+
       return new FSharpMetadataProjectReference(
         project,
         target,
-        referenceResolver,
+        incomingReferences,
         resourcesResolver,
         _watcher);
     }

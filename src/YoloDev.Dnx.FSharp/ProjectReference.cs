@@ -14,20 +14,20 @@ namespace YoloDev.Dnx.FSharp
   {
     readonly ICompilationProject _project;
     readonly ILibraryKey _target;
-    readonly Lazy<ILibraryExport> _export;
+    readonly IList<IMetadataReference> _incomingReferences;
     readonly Lazy<IList<ResourceDescriptor>> _resources;
     readonly Lazy<FSharpCompilationResult> _compile;
 
     public FSharpMetadataProjectReference(
       ICompilationProject project,
       ILibraryKey target,
-      Func<ILibraryExport> export,
+      IList<IMetadataReference> incomingReferences,
       Func<IList<ResourceDescriptor>> resources,
       IFileWatcher watcher)
     {
       _project = project;
       _target = target;
-      _export = new Lazy<ILibraryExport>(export);
+      _incomingReferences = incomingReferences;
       _resources = new Lazy<IList<ResourceDescriptor>>(resources);
 
       foreach (var source in _project.Files.SourceFiles)
@@ -91,7 +91,7 @@ namespace YoloDev.Dnx.FSharp
         var args = new List<string>();
         args.Add("fsc.exe");
         args.Add($"--out:{outFile}");
-        args.Add($"--target:library");
+        args.Add("--target:library");
         args.Add("--noframework");
         args.Add("--optimize-");
 
@@ -104,7 +104,7 @@ namespace YoloDev.Dnx.FSharp
         // - Project references
         // - Package references are turned into the appropriate assemblies
         // Each IMetadaReference maps to an assembly
-        foreach (var reference in _export.Value.MetadataReferences)
+        foreach (var reference in _incomingReferences)
         {
           string fileName = null;
           var projectRef = reference as IMetadataProjectReference;
@@ -124,6 +124,7 @@ namespace YoloDev.Dnx.FSharp
           args.Add($"-r:{fileName}");
         }
 
+        //Console.WriteLine(string.Join(Environment.NewLine, args));
         var scs = new SimpleSourceCodeServices();
         var result = scs.Compile(args.ToArray());
         var errors = result.Item1;
