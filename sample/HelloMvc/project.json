@@ -16,7 +16,6 @@
     "compilerAssembly": "YoloDev.Dnx.FSharp",
     "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectReferenceProvider"
   },
-  "compile": ["startup.fs", "controllers/home.fs"],
   "commands": {
     "web": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5000"
   }

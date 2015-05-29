@@ -9,7 +9,6 @@
   "compiler": {
     "name": "F#",
     "compilerAssembly": "YoloDev.Dnx.FSharp",
-    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectReferenceProvider"
-  },
-  "compile": ["hello.fs"]
+    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectCompiler"
+  }
 }
