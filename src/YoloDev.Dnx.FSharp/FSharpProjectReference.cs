@@ -69,7 +69,7 @@ namespace YoloDev.Dnx.FSharp
 
     public IDiagnosticResult EmitAssembly(string outputPath)
     {
-      if (Directory.Exists(outputPath))
+      if (!Directory.Exists(outputPath))
         Directory.CreateDirectory(outputPath);
 
       WriteOut(outputPath, Name, ".dll", _context.Assembly);
