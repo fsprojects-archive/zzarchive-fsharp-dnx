@@ -63,12 +63,25 @@ namespace YoloDev.Dnx.FSharp
 
     public void EmitReferenceAssembly(Stream stream)
     {
+      if (!_context.Success)
+      {
+        throw new FSharpCompilationException(_context.Diagnostics);
+      }
+
       using (var assembly = new MemoryStream(_context.Assembly))
         assembly.CopyTo(stream);
     }
 
     public IDiagnosticResult EmitAssembly(string outputPath)
     {
+      if (!_context.Success)
+      {
+        throw new FSharpCompilationException(_context.Diagnostics);
+      }
+
+      if (_context.Assembly == null)
+        throw new InvalidOperationException($"Assembly {Name} is null");
+
       if (!Directory.Exists(outputPath))
         Directory.CreateDirectory(outputPath);
 
@@ -85,7 +98,7 @@ namespace YoloDev.Dnx.FSharp
       return new FSharpDiagnosticResult(success, issues);
     }
 
-    private void WriteOut(string folder, string name, string extension, byte[] data)
+    private static void WriteOut(string folder, string name, string extension, byte[] data)
     {
       if (data == null) return;
 
