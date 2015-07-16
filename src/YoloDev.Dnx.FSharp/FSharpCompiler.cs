@@ -231,7 +231,7 @@ namespace YoloDev.Dnx.FSharp
     {
       try
       {
-        if (PlatformHelper.IsMono)
+        if (RuntimeEnvironmentHelper.IsMono)
         {
           return false;
         }
