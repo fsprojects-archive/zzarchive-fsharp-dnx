@@ -22,7 +22,7 @@ namespace YoloDev.Dnx.FSharp
     public string Name => _context.Name;
     public string ProjectPath => _context.ProjectPath;
 
-    public IDiagnosticResult GetDiagnostics()
+    public DiagnosticResult GetDiagnostics()
     {
       var diagnostics = _context.Diagnostics;
 
@@ -72,7 +72,7 @@ namespace YoloDev.Dnx.FSharp
         assembly.CopyTo(stream);
     }
 
-    public IDiagnosticResult EmitAssembly(string outputPath)
+    public DiagnosticResult EmitAssembly(string outputPath)
     {
       if (!_context.Success)
       {
@@ -92,10 +92,9 @@ namespace YoloDev.Dnx.FSharp
       return CreateDiagnosticResult(success: _context.Success, diagnostics: _context.Diagnostics);
     }
 
-    static IDiagnosticResult CreateDiagnosticResult(bool success, IEnumerable<FSharpCompilationMessage> diagnostics)
+    static DiagnosticResult CreateDiagnosticResult(bool success, IEnumerable<FSharpDiagnosticMessage> diagnostics)
     {
-      var issues = diagnostics.Where(d => d.Severity == CompilationMessageSeverity.Warning || d.Severity == CompilationMessageSeverity.Error);
-      return new FSharpDiagnosticResult(success, issues);
+      return new FSharpDiagnosticResult(success, diagnostics);
     }
 
     private static void WriteOut(string folder, string name, string extension, byte[] data)

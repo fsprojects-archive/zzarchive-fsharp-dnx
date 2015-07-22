@@ -8,31 +8,21 @@ using Microsoft.FSharp.Compiler;
 
 namespace YoloDev.Dnx.FSharp
 {
-  class FSharpDiagnosticResult : IDiagnosticResult
+  class FSharpDiagnosticResult : DiagnosticResult
   {
-    readonly IImmutableList<FSharpCompilationMessage> _messages;
-    readonly bool? _success;
-
-    public bool Success => _success.HasValue ? _success.Value : !_messages.Any(m => m.Severity == CompilationMessageSeverity.Error);
-
-    public IEnumerable<ICompilationMessage> Diagnostics => _messages.Cast<ICompilationMessage>();
-    public IImmutableList<FSharpCompilationMessage> Messages => _messages;
-
-    public FSharpDiagnosticResult(IEnumerable<FSharpCompilationMessage> messages)
+    public FSharpDiagnosticResult(IEnumerable<FSharpDiagnosticMessage> messages)
+      : this(!messages.Any(m => m.Severity == DiagnosticMessageSeverity.Error), messages)
     {
-      _messages = messages.ToImmutableList();
-      _success = null;
     }
 
-    public FSharpDiagnosticResult(bool success, IEnumerable<FSharpCompilationMessage> messages)
+    public FSharpDiagnosticResult(bool success, IEnumerable<FSharpDiagnosticMessage> messages)
+      : base(success, messages)
     {
-      _messages = messages.ToImmutableList();
-      _success = success;
     }
 
     internal static FSharpDiagnosticResult Error(string projectPath, string errorMessage)
     {
-      var message = FSharpCompilationMessage.Error(projectPath, errorMessage);
+      var message = FSharpDiagnosticMessage.Error(projectPath, errorMessage);
       return new FSharpDiagnosticResult(ImmutableList.Create(message));
     }
 
@@ -41,7 +31,7 @@ namespace YoloDev.Dnx.FSharp
       var success = resultCode == 0;
       return new FSharpDiagnosticResult(
         success,
-        errors.Select(FSharpCompilationMessage.CompilationMessage).ToImmutableList());
+        errors.Select(FSharpDiagnosticMessage.CompilationMessage).ToImmutableList());
     }
   }
 }

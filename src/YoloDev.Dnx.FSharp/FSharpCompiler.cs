@@ -11,6 +11,7 @@ using Microsoft.Framework.Runtime.Compilation;
 using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
+using Microsoft.Framework.Runtime.Infrastructure;
 
 namespace YoloDev.Dnx.FSharp
 {
@@ -48,18 +49,17 @@ namespace YoloDev.Dnx.FSharp
     }
 
     public CompilationContext CompileProject(
-      ICompilationProject project,
-      ILibraryKey target,
+      CompilationProjectContext projectContext,
       IEnumerable<IMetadataReference> incomingReferences,
       IEnumerable<ISourceReference> incomingSourceReferences,
       Func<IList<ResourceDescriptor>> resourcesResolver)
     {
-      var path = project.ProjectDirectory;
-      var name = project.Name;
+      var path = projectContext.ProjectDirectory;
+      var name = projectContext.Target.Name;
       var fsproj = GetProjectInfo(path);
 
       _watcher.WatchProject(path);
-      _watcher.WatchFile(project.ProjectFilePath);
+      _watcher.WatchFile(projectContext.ProjectFilePath);
       _watcher.WatchFile(fsproj.ProjectFilePath);
       foreach (var f in fsproj.Files)
         _watcher.WatchFile(f);
@@ -69,10 +69,10 @@ namespace YoloDev.Dnx.FSharp
         _cacheContextAccessor.Current.Monitor(new FileWriteTimeCacheDependency(fsproj.ProjectFilePath));
 
         // Monitor the trigger {projectName}_BuildOutputs
-        var buildOutputsName = project.Name + "_BuildOutputs";
+        var buildOutputsName = name + "_BuildOutputs";
 
         _cacheContextAccessor.Current.Monitor(_namedDependencyProvider.GetNamedDependency(buildOutputsName));
-        _cacheContextAccessor.Current.Monitor(_namedDependencyProvider.GetNamedDependency(project.Name + "_Dependencies"));
+        _cacheContextAccessor.Current.Monitor(_namedDependencyProvider.GetNamedDependency(name + "_Dependencies"));
       }
 
       Logger.TraceInformation("[{0}]: Compiling '{1}'", GetType().Name, name);
@@ -127,7 +127,7 @@ namespace YoloDev.Dnx.FSharp
         //Console.WriteLine(string.Join(Environment.NewLine, args));
         var scs = new SimpleSourceCodeServices();
         var result = scs.Compile(args.ToArray());
-        var errors = result.Item1.Select(FSharpCompilationMessage.CompilationMessage);
+        var errors = result.Item1.Select(FSharpDiagnosticMessage.CompilationMessage);
         var resultCode = result.Item2;
 
         //System.Diagnostics.Debugger.Launch();
@@ -160,7 +160,7 @@ namespace YoloDev.Dnx.FSharp
         }
 
         context = new CompilationContext(
-          project,
+          projectContext,
           fsproj,
           resultCode == 0,
           errors,

@@ -8,19 +8,19 @@ namespace YoloDev.Dnx.FSharp
 {
   public class CompilationContext
   {
-    readonly ICompilationProject _project;
+    readonly CompilationProjectContext _project;
     readonly FSharpProjectInfo _fsproj;
     readonly bool _success;
-    readonly List<FSharpCompilationMessage> _messages;
+    readonly List<FSharpDiagnosticMessage> _messages;
     readonly byte[] _assembly;
     readonly byte[] _pdb;
     readonly byte[] _xml;
 
     internal CompilationContext(
-      ICompilationProject project,
+      CompilationProjectContext project,
       FSharpProjectInfo fsproj,
       bool success,
-      IEnumerable<FSharpCompilationMessage> messages,
+      IEnumerable<FSharpDiagnosticMessage> messages,
       byte[] assembly,
       byte[] pdb,
       byte[] xml)
@@ -34,10 +34,10 @@ namespace YoloDev.Dnx.FSharp
       _xml = xml;
     }
 
-    public string Name => _project.Name;
+    public string Name => _project.Target.Name;
     public string ProjectPath => _project.ProjectFilePath;
     public bool Success => _success;
-    public IEnumerable<FSharpCompilationMessage> Diagnostics => _messages;
+    public IEnumerable<FSharpDiagnosticMessage> Diagnostics => _messages;
     public IEnumerable<string> SourceFiles => _fsproj.Files;
 
     public byte[] Assembly => _assembly;

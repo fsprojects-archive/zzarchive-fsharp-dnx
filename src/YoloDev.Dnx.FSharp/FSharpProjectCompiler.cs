@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Framework.Runtime;
 using Microsoft.Framework.Runtime.Caching;
 using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Framework.Runtime.Infrastructure;
 
 namespace YoloDev.Dnx.FSharp
 {
@@ -30,9 +31,8 @@ namespace YoloDev.Dnx.FSharp
     }
 
     public IMetadataProjectReference CompileProject(
-      ICompilationProject project,
-      ILibraryKey target,
-      Func<ILibraryExport> referenceResolver,
+      CompilationProjectContext projectContext,
+      Func<LibraryExport> referenceResolver,
       Func<IList<ResourceDescriptor>> resourcesResolver)
     {
       var export = referenceResolver();
@@ -45,8 +45,7 @@ namespace YoloDev.Dnx.FSharp
       var incomingSourceReferences = export.SourceReferences;
 
       var compilationContext = _compiler.CompileProject(
-        project,
-        target,
+        projectContext,
         incomingReferences,
         incomingSourceReferences,
         resourcesResolver);
