@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Compilation;
 
 namespace YoloDev.Dnx.FSharp
 {

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.Runtime.Caching;
-using Microsoft.Framework.Runtime.Compilation;
-using Microsoft.Framework.Runtime.Infrastructure;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Compilation;
+using Microsoft.Dnx.Runtime;
+using Microsoft.Dnx.Runtime.Caching;
+using Microsoft.Dnx.Runtime.Infrastructure;
 
 namespace YoloDev.Dnx.FSharp
 {

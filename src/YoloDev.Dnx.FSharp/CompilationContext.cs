@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx.Compilation;
 
 namespace YoloDev.Dnx.FSharp
 {

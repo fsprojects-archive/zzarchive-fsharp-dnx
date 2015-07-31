@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Compilation;
 using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 

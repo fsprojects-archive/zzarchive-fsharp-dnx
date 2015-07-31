@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx.Compilation;
 
 namespace YoloDev.Dnx.FSharp
 {

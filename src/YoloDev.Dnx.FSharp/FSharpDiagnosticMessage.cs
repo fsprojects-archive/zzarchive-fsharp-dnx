@@ -1,4 +1,5 @@
-using Microsoft.Framework.Runtime;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler;
 
 namespace YoloDev.Dnx.FSharp

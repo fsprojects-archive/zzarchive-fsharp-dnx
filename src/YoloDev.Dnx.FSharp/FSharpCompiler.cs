@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.Runtime.Caching;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Compilation;
+using Microsoft.Dnx.Runtime;
+using Microsoft.Dnx.Runtime.Caching;
+using Microsoft.Dnx.Runtime.Infrastructure;
 using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
-using Microsoft.Framework.Runtime.Infrastructure;
 
 namespace YoloDev.Dnx.FSharp
 {

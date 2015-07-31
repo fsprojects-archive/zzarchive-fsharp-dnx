@@ -8,12 +8,12 @@
 
   "dependencies": {
     "YoloDev.Dnx.FSharp": { "type": "build", "version": "" },
-    "xunit": "2.1.0-*",
-    "xunit.runner.dnx": "2.1.0-*"
+    "Microsoft.AspNet.Testing": "1.0.0-*",
+    "xunit.runner.aspnet": "2.0.0-aspnet-*"
   },
 
   "commands": {
-    "test": "xunit.runner.dnx"
+    "test": "xunit.runner.aspnet"
   },
 
   "frameworks": {

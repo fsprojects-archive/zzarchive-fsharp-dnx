@@ -5,8 +5,9 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Microsoft.Framework.Runtime;
-using Microsoft.Framework.Runtime.Compilation;
+using Microsoft.Dnx;
+using Microsoft.Dnx.Compilation;
+using Microsoft.Dnx.Runtime;
 
 namespace YoloDev.Dnx.FSharp
 {
