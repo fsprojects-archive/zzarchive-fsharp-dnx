@@ -4,7 +4,6 @@ using Microsoft.Dnx;
 using Microsoft.Dnx.Compilation;
 using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
-using Microsoft.Dnx.Runtime.Caching;
 using Microsoft.Dnx.Runtime.Infrastructure;
 
 namespace YoloDev.Dnx.FSharp
