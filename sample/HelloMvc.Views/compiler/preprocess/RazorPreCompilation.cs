@@ -3,7 +3,7 @@
 
 using System;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Runtime;
+using Microsoft.Dnx.Runtime;
 
 namespace HelloMvc.Views
 {

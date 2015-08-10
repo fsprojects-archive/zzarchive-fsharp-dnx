@@ -1,5 +1,7 @@
 {
   "files": [
-    "startup.fs"
+    "utils.fs",
+    "startup.fs",
+    "controllers/home.fs"
   ]
 }

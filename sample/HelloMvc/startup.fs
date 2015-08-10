@@ -10,11 +10,13 @@ type Startup(env: IHostingEnvironment) =
 
   // Set up application services
   member public x.ConfigureServices (services: IServiceCollection) =
-    services.AddMvc ()
+    services.AddMvc () |> ignore
+    services.AddPrecompiledRazorViews (System.Reflection.Assembly.Load "HelloMvc.Views") |> ignore
     ()
 
   // Configure pipeline
   member public x.Configure (app: IApplicationBuilder, loggerFactory: ILoggerFactory) =
+    debug ()
     //loggerFactory.AddConsole (fun (name, logLevel) -> true)
     System.Diagnostics.Debugger.Break () |> ignore
     app.UseErrorPage () |> ignore

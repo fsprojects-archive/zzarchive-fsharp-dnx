@@ -7,4 +7,5 @@ type public HomeController() =
 
   member public x.Index () =
     //x.Content "Hello from F#"
+    debug ()
     x.View ()
