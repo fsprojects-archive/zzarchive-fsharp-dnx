@@ -16,7 +16,6 @@ namespace YoloDev.Dnx.FSharp
       ICache cache,
       ICacheContextAccessor cacheContextAccessor,
       INamedCacheDependencyProvider namedCacheProvider,
-      IAssemblyLoadContextFactory loadContextFactory,
       IFileWatcher watcher,
       IApplicationEnvironment environment,
       IServiceProvider services)
@@ -25,7 +24,6 @@ namespace YoloDev.Dnx.FSharp
         cache,
         cacheContextAccessor,
         namedCacheProvider,
-        loadContextFactory,
         watcher,
         environment,
         services);
