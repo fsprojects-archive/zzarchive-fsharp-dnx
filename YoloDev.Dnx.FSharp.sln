@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "YoloDev.Dnx.FSharp", "src\YoloDev.Dnx.FSharp\YoloDev.Dnx.FSharp.xproj", "{11F491AA-98D9-4D36-8F4C-4573DDDABF49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CFD70C2C-E00D-4340-A387-E9577BFB2D5A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{48B5D8BF-426D-4221-BB16-0C76E9792999}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "YoloDev.Dnx.FSharp.Test", "test\YoloDev.Dnx.FSharp.Test\YoloDev.Dnx.FSharp.Test.xproj", "{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{4BC77B28-AC2E-416A-8D2F-491819D5FFD5}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloFSharp", "sample\HelloFSharp\HelloFSharp.xproj", "{4DC29E60-1C63-477F-AA34-67B5E65775FB}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloMvc", "sample\HelloMvc\HelloMvc.xproj", "{F1623F56-EA17-429D-989A-99CB6F2E8EEA}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "HelloMvc.Views", "sample\HelloMvc.Views\HelloMvc.Views.xproj", "{4437BEFB-4824-406C-9B43-745F90C748D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11F491AA-98D9-4D36-8F4C-4573DDDABF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11F491AA-98D9-4D36-8F4C-4573DDDABF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11F491AA-98D9-4D36-8F4C-4573DDDABF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11F491AA-98D9-4D36-8F4C-4573DDDABF49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DC29E60-1C63-477F-AA34-67B5E65775FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DC29E60-1C63-477F-AA34-67B5E65775FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DC29E60-1C63-477F-AA34-67B5E65775FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DC29E60-1C63-477F-AA34-67B5E65775FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1623F56-EA17-429D-989A-99CB6F2E8EEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1623F56-EA17-429D-989A-99CB6F2E8EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1623F56-EA17-429D-989A-99CB6F2E8EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1623F56-EA17-429D-989A-99CB6F2E8EEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4437BEFB-4824-406C-9B43-745F90C748D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4437BEFB-4824-406C-9B43-745F90C748D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4437BEFB-4824-406C-9B43-745F90C748D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4437BEFB-4824-406C-9B43-745F90C748D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{11F491AA-98D9-4D36-8F4C-4573DDDABF49} = {CFD70C2C-E00D-4340-A387-E9577BFB2D5A}
+		{BF35EB0A-4C51-4685-BFD8-8B5EB3DEA5CA} = {48B5D8BF-426D-4221-BB16-0C76E9792999}
+		{4DC29E60-1C63-477F-AA34-67B5E65775FB} = {4BC77B28-AC2E-416A-8D2F-491819D5FFD5}
+		{F1623F56-EA17-429D-989A-99CB6F2E8EEA} = {4BC77B28-AC2E-416A-8D2F-491819D5FFD5}
+		{4437BEFB-4824-406C-9B43-745F90C748D2} = {4BC77B28-AC2E-416A-8D2F-491819D5FFD5}
+	EndGlobalSection
+EndGlobal

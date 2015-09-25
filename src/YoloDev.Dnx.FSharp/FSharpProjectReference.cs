@@ -38,7 +38,7 @@ namespace YoloDev.Dnx.FSharp
         .ToImmutableList();
     }
 
-    public Assembly Load(IAssemblyLoadContext loadContext)
+    public Assembly Load(AssemblyName assemblyName, IAssemblyLoadContext loadContext)
     {
       if (!_context.Success)
       {
