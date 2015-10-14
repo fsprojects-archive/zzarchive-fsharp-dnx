@@ -1,14 +1,14 @@
 {
   "version": "1.0.0-beta-*",
   "dependencies": {
-    "YoloDev.Dnx.FSharp": { "type": "build", "version": "" }
+    "FSharp.Dnx": { "type": "build", "version": "" }
   },
   "frameworks": {
     "dnx451": { }
   },
   "compiler": {
     "name": "F#",
-    "compilerAssembly": "YoloDev.Dnx.FSharp",
-    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectCompiler"
+    "compilerAssembly": "FSharp.Dnx",
+    "compilerType": "FSharp.Dnx.FSharpProjectCompiler"
   }
 }

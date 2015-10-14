@@ -9,7 +9,7 @@ using Microsoft.Dnx;
 using Microsoft.Dnx.Compilation;
 using Microsoft.Dnx.Runtime;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   public class FSharpProjectReference : IMetadataProjectReference
   {

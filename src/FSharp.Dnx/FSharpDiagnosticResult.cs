@@ -7,7 +7,7 @@ using Microsoft.Dnx.Compilation;
 using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   class FSharpDiagnosticResult : DiagnosticResult
   {

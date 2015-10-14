@@ -8,7 +8,7 @@ using Microsoft.Dnx.Compilation;
 using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   // HUGE UGLY HACK. NEEDS TO BE REMOVED.
   class ResolveHooker : IDisposable

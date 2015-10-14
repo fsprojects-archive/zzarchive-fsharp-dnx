@@ -14,7 +14,7 @@ using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   public class FSharpCompiler
   {
