@@ -46,7 +46,7 @@ namespace FSharp.Dnx
     {
       var path = projectContext.ProjectDirectory;
       var name = projectContext.Target.Name;
-      var fsharpFiles = GetFSharpFiles(projectContext.ProjectFilePath);
+      var projectInfo = GetProjectInfo(projectContext.ProjectFilePath);
 
       if (_cacheContextAccessor.Current != null)
       {
@@ -79,7 +79,7 @@ namespace FSharp.Dnx
         if (SupportsPdbGeneration)
           args.Add($"--pdb:{Path.ChangeExtension(outFile, ".pdb")}");
         args.Add($"--doc:{Path.ChangeExtension(outFile, ".xml")}");
-        args.AddRange(fsharpFiles);
+        args.AddRange(projectInfo.Files);
 
         // These are the metadata references being used by your project.
         // Everything in your project.json is resolved and normailzed here:
@@ -143,7 +143,7 @@ namespace FSharp.Dnx
 
         context = new CompilationContext(
           projectContext,
-          fsharpFiles,
+          projectInfo,
           resultCode == 0,
           errors,
           assembly?.ToArray(),
@@ -161,7 +161,7 @@ namespace FSharp.Dnx
       return context;
     }
 
-    private static IImmutableList<string> GetFSharpFiles(string path)
+    private static FSharpProjectInfo GetProjectInfo(string path)
     {
       var projectDirectory = Path.GetDirectoryName(path);
       
@@ -216,7 +216,7 @@ namespace FSharp.Dnx
         files.Add(fullName);
       }
 
-      return files.ToImmutableList();
+      return new FSharpProjectInfo(files.ToImmutableList());
     }
 
     private static bool CheckPdbGenerationSupport()
@@ -244,6 +244,6 @@ namespace FSharp.Dnx
       {
         return false;
       }
-    }
+    } 
   }
 }

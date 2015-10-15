@@ -10,7 +10,7 @@ namespace FSharp.Dnx
 
     internal CompilationContext(
       CompilationProjectContext project,
-      IEnumerable<string> sourceFiles,
+      FSharpProjectInfo projectInfo,
       bool success,
       IEnumerable<FSharpDiagnosticMessage> messages,
       byte[] assembly,
@@ -18,7 +18,7 @@ namespace FSharp.Dnx
       byte[] xml)
     {
       _project = project;
-      SourceFiles = sourceFiles;
+      ProjectInfo = projectInfo;
       Success = success;
       Diagnostics = messages.ToList();
       Assembly = assembly;
@@ -30,7 +30,7 @@ namespace FSharp.Dnx
     public string ProjectPath => _project.ProjectFilePath;
     public bool Success { get; }
     public IEnumerable<FSharpDiagnosticMessage> Diagnostics { get; }
-    public IEnumerable<string> SourceFiles { get; }
+    public FSharpProjectInfo ProjectInfo { get; }
 
     public byte[] Assembly { get; }
     public byte[] Pdb { get; }
