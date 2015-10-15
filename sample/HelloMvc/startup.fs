@@ -2,24 +2,29 @@ namespace HelloMvc
 
 open System
 open Microsoft.AspNet.Builder
-open Microsoft.Framework.DependencyInjection
-open Microsoft.Framework.Logging
+open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Logging
 open Microsoft.AspNet.Hosting
 
 type Startup(env: IHostingEnvironment) =
 
   // Set up application services
   member public x.ConfigureServices (services: IServiceCollection) =
-    services.AddMvc () |> ignore
-    services.AddPrecompiledRazorViews (System.Reflection.Assembly.Load "HelloMvc.Views") |> ignore
+    let mvcBuilder = services.AddMvc ()
+
+    let viewAssemblies = 
+      [ "HelloMvc.Views" ]
+      |> List.map Reflection.Assembly.Load
+      |> Array.ofList
+    
+    mvcBuilder.AddPrecompiledRazorViews viewAssemblies |> ignore
+    //Microsoft.Extensions.DependencyInjection.MvcRazorMvcBuilderExtensions.AddPrecompiledRazorViews (mvcBuilder, System.Reflection.Assembly.Load "HelloMvc.Views") |> ignore
     ()
 
   // Configure pipeline
   member public x.Configure (app: IApplicationBuilder, loggerFactory: ILoggerFactory) =
-    debug ()
     //loggerFactory.AddConsole (fun (name, logLevel) -> true)
-    System.Diagnostics.Debugger.Break () |> ignore
-    app.UseErrorPage () |> ignore
+    app.UseDeveloperExceptionPage () |> ignore
 
     app.UseStaticFiles () |> ignore
 
