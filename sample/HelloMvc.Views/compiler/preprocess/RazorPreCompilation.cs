@@ -2,18 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Razor.Precompilation;
+using Microsoft.Dnx.Compilation.CSharp;
 using Microsoft.Dnx.Runtime;
 
 namespace HelloMvc.Views
 {
     public class TagHelperPrecompilation : RazorPreCompileModule
     {
-        public TagHelperPrecompilation(IServiceProvider provider,
-                                       IApplicationEnvironment applicationEnvironment)
-            : base(provider)
+        public TagHelperPrecompilation()
         {
             GenerateSymbols = true;
         }
+
+        //protected override bool EnablePreCompilation(BeforeCompileContext context)
+        //{
+        //    return true;
+        //}
     }
 }
