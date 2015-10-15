@@ -26,7 +26,6 @@ namespace FSharp.Dnx
     readonly ICache _cache;
     readonly ICacheContextAccessor _cacheContextAccessor;
     readonly INamedCacheDependencyProvider _namedDependencyProvider;
-    readonly IFileWatcher _watcher;
     readonly IApplicationEnvironment _environment;
     readonly IServiceProvider _services;
 
@@ -34,14 +33,12 @@ namespace FSharp.Dnx
       ICache cache,
       ICacheContextAccessor cacheContextAccessor,
       INamedCacheDependencyProvider namedDependencyProvider,
-      IFileWatcher watcher,
       IApplicationEnvironment environment,
       IServiceProvider services)
     {
       _cache = cache;
       _cacheContextAccessor = cacheContextAccessor;
       _namedDependencyProvider = namedDependencyProvider;
-      _watcher = watcher;
       _environment = environment;
       _services = services;
     }
@@ -55,12 +52,6 @@ namespace FSharp.Dnx
       var path = projectContext.ProjectDirectory;
       var name = projectContext.Target.Name;
       var fsproj = GetProjectInfo(path);
-
-      _watcher.WatchProject(path);
-      _watcher.WatchFile(projectContext.ProjectFilePath);
-      _watcher.WatchFile(fsproj.ProjectFilePath);
-      foreach (var f in fsproj.Files)
-        _watcher.WatchFile(f);
 
       if (_cacheContextAccessor.Current != null)
       {
