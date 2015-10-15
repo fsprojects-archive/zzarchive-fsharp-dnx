@@ -16,7 +16,6 @@ namespace FSharp.Dnx
       ICache cache,
       ICacheContextAccessor cacheContextAccessor,
       INamedCacheDependencyProvider namedCacheProvider,
-      IFileWatcher watcher,
       IApplicationEnvironment environment,
       IServiceProvider services)
     {
@@ -24,7 +23,6 @@ namespace FSharp.Dnx
         cache,
         cacheContextAccessor,
         namedCacheProvider,
-        watcher,
         environment,
         services);
     }
