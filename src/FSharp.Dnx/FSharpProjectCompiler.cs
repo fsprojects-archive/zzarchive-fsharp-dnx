@@ -6,7 +6,7 @@ using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Dnx.Runtime.Infrastructure;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   public class FSharpProjectCompiler : IProjectCompiler
   {

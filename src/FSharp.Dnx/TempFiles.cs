@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   class TempFiles : IDisposable
   {

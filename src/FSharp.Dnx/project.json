@@ -20,6 +20,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/YoloDev/YoloDev.Dnx.FSharp.git"
+    "url": "https://github.com/fsprojects/fsharp-dnx.git"
   }
 }

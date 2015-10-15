@@ -6,7 +6,7 @@ using System.Linq;
 using Microsoft.Dnx;
 using Microsoft.Dnx.Compilation;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   class FSharpCompilationFailure : CompilationFailure
   {

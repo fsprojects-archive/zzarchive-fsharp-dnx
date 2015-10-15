@@ -2,7 +2,7 @@ using Microsoft.Dnx;
 using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   public class FSharpDiagnosticMessage : DiagnosticMessage
   {

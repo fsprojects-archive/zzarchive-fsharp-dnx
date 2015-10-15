@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Dnx.Compilation;
 
-namespace YoloDev.Dnx.FSharp
+namespace FSharp.Dnx
 {
   class FSharpSourceReference : ISourceReference
   {

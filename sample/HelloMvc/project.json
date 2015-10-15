@@ -1,7 +1,7 @@
 {
   "version": "1.0.0-beta-*",
   "dependencies": {
-    "YoloDev.Dnx.FSharp": { "type": "build", "version": "" },
+    "FSharp.Dnx": { "type": "build", "version": "" },
     "HelloMvc.Views": "",
     "Kestrel": "1.0.0-*",
     "Microsoft.AspNet.Mvc": "6.0.0-*",
@@ -13,8 +13,8 @@
   },
   "compiler": {
     "name": "F#",
-    "compilerAssembly": "YoloDev.Dnx.FSharp",
-    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectCompiler"
+    "compilerAssembly": "FSharp.Dnx",
+    "compilerType": "FSharp.Dnx.FSharpProjectCompiler"
   },
   "commands": {
     "web": "Microsoft.AspNet.Hosting --server Kestrel --server.urls http://localhost:5000"

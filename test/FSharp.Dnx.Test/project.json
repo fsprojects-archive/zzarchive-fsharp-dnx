@@ -7,7 +7,7 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "YoloDev.Dnx.FSharp": { "type": "build", "version": "" },
+    "FSharp.Dnx": { "type": "build", "version": "" },
     "Microsoft.AspNet.Testing": "1.0.0-*",
     "xunit.runner.aspnet": "2.0.0-aspnet-*"
   },
@@ -22,7 +22,7 @@
 
   "compiler": {
     "name": "F#",
-    "compilerAssembly": "YoloDev.Dnx.FSharp",
-    "compilerType": "YoloDev.Dnx.FSharp.FSharpProjectCompiler"
+    "compilerAssembly": "FSharp.Dnx",
+    "compilerType": "FSharp.Dnx.FSharpProjectCompiler"
   }
 }
