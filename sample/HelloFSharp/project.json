@@ -10,5 +10,10 @@
     "name": "F#",
     "compilerAssembly": "FSharp.Dnx",
     "compilerType": "FSharp.Dnx.FSharpProjectCompiler"
+  },
+  "fsharp": {
+    "files": [
+      "hello.fs"
+    ]
   }
 }
