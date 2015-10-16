@@ -17,6 +17,6 @@ artifacts:
 
 deploy:
   - provider: Environment
-    name: yolodev
+    name: fsprojects
     on:
       branch: master
