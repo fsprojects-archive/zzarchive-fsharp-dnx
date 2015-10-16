@@ -4,11 +4,13 @@ namespace FSharp.Dnx
 {
     public class FSharpProjectInfo
     {
-      public FSharpProjectInfo(IImmutableList<string> files)
+      public FSharpProjectInfo(bool autoDiscoverFsi, IImmutableList<string> files)
       {
+        AutoDiscoverFsi = autoDiscoverFsi;
         Files = files;
       }
       
+      public bool AutoDiscoverFsi { get; }
       public IImmutableList<string> Files { get; }
     }
 }

@@ -216,7 +216,7 @@ namespace FSharp.Dnx
         files.Add(fullName);
       }
 
-      return new FSharpProjectInfo(files.ToImmutableList());
+      return new FSharpProjectInfo(autoDiscoverFsi, files.ToImmutableList());
     }
 
     private static bool CheckPdbGenerationSupport()
