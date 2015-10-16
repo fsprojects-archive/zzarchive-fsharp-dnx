@@ -173,7 +173,7 @@ namespace FSharp.Dnx
 
         if (info == null)
         {
-          throw new InvalidOperationException($"{path} did not contain a valid F# project configuration.");
+          throw new InvalidOperationException($"{path} did not contain a valid project configuration.");
         }
         
         info = info.ValueAsJsonObject("fsharp");
