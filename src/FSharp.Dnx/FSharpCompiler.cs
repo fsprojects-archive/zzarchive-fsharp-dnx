@@ -200,7 +200,7 @@ namespace FSharp.Dnx
         
         if (!File.Exists(fullName))
         {
-          throw new FileNotFoundException("F# file {fullName} not found.", fullName);
+          throw new FileNotFoundException($"F# file {fullName} not found.", fullName);
         }
 
         if (autoDiscoverFsi)
