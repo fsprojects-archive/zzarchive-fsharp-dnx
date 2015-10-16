@@ -32,7 +32,7 @@ namespace FSharp.Dnx
 
     public IList<ISourceReference> GetSources()
     {
-      return _context.SourceFiles
+      return _context.ProjectInfo.Files
         .Select(FSharpSourceReference.Create)
         .Cast<ISourceReference>()
         .ToImmutableList();

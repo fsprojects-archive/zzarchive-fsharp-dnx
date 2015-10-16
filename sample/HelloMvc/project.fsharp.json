@@ -1,7 +1,0 @@
-{
-  "files": [
-    "utils.fs",
-    "startup.fs",
-    "controllers/home.fs"
-  ]
-}

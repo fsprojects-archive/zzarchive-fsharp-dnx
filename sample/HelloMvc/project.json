@@ -18,5 +18,12 @@
   },
   "commands": {
     "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.Kestrel"
+  },
+  "fsharp": {
+    "files": [
+      "utils.fs",
+      "startup.fs",
+      "controllers/home.fs"
+    ]
   }
 }

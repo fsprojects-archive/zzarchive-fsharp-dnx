@@ -5,12 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.Dnx;
 using Microsoft.Dnx.Compilation;
 using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
-using Microsoft.Dnx.Runtime.Infrastructure;
-using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
 
@@ -18,8 +15,6 @@ namespace FSharp.Dnx
 {
   public class FSharpCompiler
   {
-    const string PROJECT_FILE_NAME = "project.fsharp.json";
-
     static Lazy<bool> _supportsPdbGeneration = new Lazy<bool>(CheckPdbGenerationSupport);
     internal static bool SupportsPdbGeneration => _supportsPdbGeneration.Value;
 
@@ -51,11 +46,11 @@ namespace FSharp.Dnx
     {
       var path = projectContext.ProjectDirectory;
       var name = projectContext.Target.Name;
-      var fsproj = GetProjectInfo(path);
+      var projectInfo = GetProjectInfo(projectContext.ProjectFilePath);
 
       if (_cacheContextAccessor.Current != null)
       {
-        _cacheContextAccessor.Current.Monitor(new FileWriteTimeCacheDependency(fsproj.ProjectFilePath));
+        _cacheContextAccessor.Current.Monitor(new FileWriteTimeCacheDependency(projectContext.ProjectFilePath));
 
         // Monitor the trigger {projectName}_BuildOutputs
         var buildOutputsName = name + "_BuildOutputs";
@@ -84,9 +79,7 @@ namespace FSharp.Dnx
         if (SupportsPdbGeneration)
           args.Add($"--pdb:{Path.ChangeExtension(outFile, ".pdb")}");
         args.Add($"--doc:{Path.ChangeExtension(outFile, ".xml")}");
-
-        foreach (var source in fsproj.Files)
-          args.Add(source);
+        args.AddRange(projectInfo.Files);
 
         // These are the metadata references being used by your project.
         // Everything in your project.json is resolved and normailzed here:
@@ -150,7 +143,7 @@ namespace FSharp.Dnx
 
         context = new CompilationContext(
           projectContext,
-          fsproj,
+          projectInfo,
           resultCode == 0,
           errors,
           assembly?.ToArray(),
@@ -168,42 +161,52 @@ namespace FSharp.Dnx
       return context;
     }
 
-    static FSharpProjectInfo GetProjectInfo(string projectDirectory)
+    static FSharpProjectInfo GetProjectInfo(string path)
     {
-      var path = Path.Combine(projectDirectory, PROJECT_FILE_NAME);
-      if (!File.Exists(path))
-      {
-        throw new FileNotFoundException("FSharp project file not found", path);
-      }
-
+      var projectDirectory = Path.GetDirectoryName(path);
+      
       JsonObject info;
       using (var fs = File.OpenRead(path))
       using (var rd = new StreamReader(fs))
       {
-        var result = JsonDeserializer.Deserialize(rd).AsObject();
-        if (result == null)
-        {
-          throw new InvalidOperationException($"{path} did not contain a valid fsharp project configuration");
-        }
+        info = JsonDeserializer.Deserialize(rd).AsObject();
 
-        info = result;
+        if (info == null)
+        {
+          throw new InvalidOperationException($"{path} did not contain a valid project configuration.");
+        }
+        
+        info = info.ValueAsJsonObject("fsharp");
+        
+        if (info == null) 
+        {
+          throw new InvalidOperationException($"{path} did not contain an 'fsharp' configuration section.");
+        }
       }
 
-      var autoDiscoverFsi = info.ValueAsBoolean("autoDiscoverFsi", true);
       var fileNames = info.ValueAsStringArray("files");
+      
+      if (fileNames == null)
+      {
+        fileNames = new string[0];
+      }
+      
+      var autoDiscoverFsi = info.ValueAsBoolean("autoDiscoverFsi", true);
 
       var files = new List<string>();
       foreach (var f in fileNames)
       {
         var fullName = Path.Combine(projectDirectory, f);
+        
         if (!File.Exists(fullName))
         {
-          throw new FileNotFoundException("FSharp file {fullName} not found", fullName);
+          throw new FileNotFoundException($"F# file {fullName} not found.", fullName);
         }
 
         if (autoDiscoverFsi)
         {
           var fsiName = Path.ChangeExtension(fullName, ".fsi");
+          
           if (File.Exists(fsiName))
           {
             files.Add(fsiName);
@@ -213,7 +216,7 @@ namespace FSharp.Dnx
         files.Add(fullName);
       }
 
-      return new FSharpProjectInfo(path, autoDiscoverFsi, files.ToImmutableList());
+      return new FSharpProjectInfo(autoDiscoverFsi, files.ToImmutableList());
     }
 
     private static bool CheckPdbGenerationSupport()
@@ -241,23 +244,6 @@ namespace FSharp.Dnx
       {
         return false;
       }
-    }
-  }
-
-  class FSharpProjectInfo
-  {
-    public string ProjectFilePath { get; }
-    public bool AutoDiscoverFsi { get; }
-    public IImmutableList<string> Files { get; }
-
-    public FSharpProjectInfo(
-      string projectFilePath,
-      bool autoDiscoverFsi,
-      IImmutableList<string> files)
-    {
-      ProjectFilePath = projectFilePath;
-      AutoDiscoverFsi = autoDiscoverFsi;
-      Files = files;
-    }
+    } 
   }
 }

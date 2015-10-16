@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using Microsoft.Dnx.Compilation;
 
 namespace FSharp.Dnx
@@ -9,16 +7,10 @@ namespace FSharp.Dnx
   public class CompilationContext
   {
     readonly CompilationProjectContext _project;
-    readonly FSharpProjectInfo _fsproj;
-    readonly bool _success;
-    readonly List<FSharpDiagnosticMessage> _messages;
-    readonly byte[] _assembly;
-    readonly byte[] _pdb;
-    readonly byte[] _xml;
 
     internal CompilationContext(
       CompilationProjectContext project,
-      FSharpProjectInfo fsproj,
+      FSharpProjectInfo projectInfo,
       bool success,
       IEnumerable<FSharpDiagnosticMessage> messages,
       byte[] assembly,
@@ -26,22 +18,22 @@ namespace FSharp.Dnx
       byte[] xml)
     {
       _project = project;
-      _fsproj = fsproj;
-      _success = success;
-      _messages = messages.ToList();
-      _assembly = assembly;
-      _pdb = pdb;
-      _xml = xml;
+      ProjectInfo = projectInfo;
+      Success = success;
+      Diagnostics = messages.ToList();
+      Assembly = assembly;
+      Pdb = pdb;
+      Xml = xml;
     }
 
     public string Name => _project.Target.Name;
     public string ProjectPath => _project.ProjectFilePath;
-    public bool Success => _success;
-    public IEnumerable<FSharpDiagnosticMessage> Diagnostics => _messages;
-    public IEnumerable<string> SourceFiles => _fsproj.Files;
+    public bool Success { get; }
+    public IEnumerable<FSharpDiagnosticMessage> Diagnostics { get; }
+    public FSharpProjectInfo ProjectInfo { get; }
 
-    public byte[] Assembly => _assembly;
-    public byte[] Pdb => _pdb;
-    public byte[] Xml => _xml;
+    public byte[] Assembly { get; }
+    public byte[] Pdb { get; }
+    public byte[] Xml { get; }
   }
 }
