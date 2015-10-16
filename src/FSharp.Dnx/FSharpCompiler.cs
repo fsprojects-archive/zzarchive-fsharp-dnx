@@ -161,7 +161,7 @@ namespace FSharp.Dnx
       return context;
     }
 
-    private static FSharpProjectInfo GetProjectInfo(string path)
+    static FSharpProjectInfo GetProjectInfo(string path)
     {
       var projectDirectory = Path.GetDirectoryName(path);
       
