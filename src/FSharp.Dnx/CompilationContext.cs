@@ -6,7 +6,7 @@ namespace FSharp.Dnx
 {
   public class CompilationContext
   {
-    private readonly CompilationProjectContext _project;
+    readonly CompilationProjectContext _project;
 
     internal CompilationContext(
       CompilationProjectContext project,
