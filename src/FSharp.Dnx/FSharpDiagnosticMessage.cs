@@ -1,5 +1,4 @@
-using Microsoft.Dnx;
-using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.FSharp.Compiler;
 
 namespace FSharp.Dnx

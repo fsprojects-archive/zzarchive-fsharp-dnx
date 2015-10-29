@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Microsoft.Dnx;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FSharp.Dnx
 {
