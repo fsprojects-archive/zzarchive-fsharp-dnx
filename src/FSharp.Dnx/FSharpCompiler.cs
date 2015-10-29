@@ -10,6 +10,7 @@ using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FSharp.Dnx
 {

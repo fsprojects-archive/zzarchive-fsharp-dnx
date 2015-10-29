@@ -4,10 +4,9 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using Microsoft.Dnx;
 using Microsoft.Dnx.Compilation;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FSharp.Dnx
 {

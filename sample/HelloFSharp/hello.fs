@@ -1,6 +1,6 @@
 namespace HelloFSharp
 
-open Microsoft.Dnx.Runtime
+open Microsoft.Extensions.PlatformAbstractions
 
 type Program (env: IApplicationEnvironment) =
   member x.Main () =
