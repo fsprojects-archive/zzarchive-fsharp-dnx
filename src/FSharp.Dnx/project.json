@@ -1,6 +1,6 @@
 {
   "description": "FSharp support for the DNX compiler",
-  "version": "1.0.0-beta-*",
+  "version": "1.0.0-beta1",
   "compilationOptions": {
     "warningsAsErrors": true
   },
