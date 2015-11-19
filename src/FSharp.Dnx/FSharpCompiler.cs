@@ -165,7 +165,7 @@ namespace FSharp.Dnx
     static FSharpProjectInfo GetProjectInfo(string path)
     {
       var projectDirectory = Path.GetDirectoryName(path);
-      
+
       JsonObject info;
       using (var fs = File.OpenRead(path))
       using (var rd = new StreamReader(fs))
@@ -176,29 +176,29 @@ namespace FSharp.Dnx
         {
           throw new InvalidOperationException($"{path} did not contain a valid project configuration.");
         }
-        
+
         info = info.ValueAsJsonObject("fsharp");
-        
-        if (info == null) 
+
+        if (info == null)
         {
           throw new InvalidOperationException($"{path} did not contain an 'fsharp' configuration section.");
         }
       }
 
       var fileNames = info.ValueAsStringArray("files");
-      
+
       if (fileNames == null)
       {
         fileNames = new string[0];
       }
-      
+
       var autoDiscoverFsi = info.ValueAsBoolean("autoDiscoverFsi", true);
 
       var files = new List<string>();
       foreach (var f in fileNames)
       {
         var fullName = Path.Combine(projectDirectory, f);
-        
+
         if (!File.Exists(fullName))
         {
           throw new FileNotFoundException($"F# file {fullName} not found.", fullName);
@@ -207,7 +207,7 @@ namespace FSharp.Dnx
         if (autoDiscoverFsi)
         {
           var fsiName = Path.ChangeExtension(fullName, ".fsi");
-          
+
           if (File.Exists(fsiName))
           {
             files.Add(fsiName);
@@ -245,6 +245,6 @@ namespace FSharp.Dnx
       {
         return false;
       }
-    } 
+    }
   }
 }
