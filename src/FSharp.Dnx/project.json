@@ -12,9 +12,7 @@
     "YoloDev.Dnx.Json": { "type": "build", "version": "1.0.0-*" }
   },
   "frameworks": {
-    "dnx451": {
-      "frameworkAssemblies": { "System.Runtime": "" }
-    }
+    "dnx451": { }
   },
   "repository": {
     "type": "git",
