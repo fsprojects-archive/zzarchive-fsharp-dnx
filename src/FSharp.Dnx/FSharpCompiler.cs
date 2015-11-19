@@ -224,7 +224,7 @@ namespace FSharp.Dnx
     {
       try
       {
-        if (PlatformServices.Default.Runtime.RuntimeType == "Mono")
+        if (RuntimeEnvironmentHelper.IsMono)
         {
           return false;
         }
