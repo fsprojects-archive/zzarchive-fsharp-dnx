@@ -9,8 +9,7 @@
     "Microsoft.Dnx.Compilation": "1.0.0-rc1-final",
     "FSharp.Compiler.Service": "1.4.0.6",
     "FSharp.Core": "4.0.0.1",
-    "YoloDev.Dnx.Json": { "type": "build", "version": "1.0.0-*" },
-    "Microsoft.Dnx.Runtime.Sources": { "type": "build", "version": "1.0.0-*" }
+    "YoloDev.Dnx.Json": { "type": "build", "version": "1.0.0-*" }
   },
   "frameworks": {
     "dnx451": {
