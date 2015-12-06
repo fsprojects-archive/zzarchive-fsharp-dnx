@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.CompilationAbstractions;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
-using Microsoft.Extensions.PlatformAbstractions;
+using System.Linq;
+using System.Collections.Immutable;
+using Microsoft.Dnx.Compilation.Caching;
+using ICache = Microsoft.Extensions.CompilationAbstractions.Caching.ICache;
+using ICacheContextAccessor = Microsoft.Extensions.CompilationAbstractions.Caching.ICacheContextAccessor;
+using INamedCacheDependencyProvider = Microsoft.Extensions.CompilationAbstractions.Caching.INamedCacheDependencyProvider;
 
 namespace FSharp.Dnx
 {
