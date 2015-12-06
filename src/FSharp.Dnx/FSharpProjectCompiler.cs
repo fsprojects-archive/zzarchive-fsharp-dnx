@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.Caching;
+using Microsoft.Extensions.CompilationAbstractions;
+using Microsoft.Extensions.CompilationAbstractions.Caching;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FSharp.Dnx
@@ -25,33 +25,31 @@ namespace FSharp.Dnx
         services);
     }
 
-    public IMetadataProjectReference CompileProject(
-      CompilationProjectContext projectContext,
-      Func<LibraryExport> referenceResolver,
-      Func<IList<ResourceDescriptor>> resourcesResolver)
-    {
-      var export = referenceResolver();
-      if (export == null)
+      public IMetadataProjectReference CompileProject(CompilationProjectContext projectContext, Func<LibraryExport> referenceResolver,
+          Func<IList<ResourceDescriptor>> resourcesResolver, string configuration)
       {
-          return null;
-      }
+            var export = referenceResolver();
+            if (export == null)
+            {
+                return null;
+            }
 
-      var incomingReferences = export.MetadataReferences;
-      var incomingSourceReferences = export.SourceReferences;
+            var incomingReferences = export.MetadataReferences;
+            var incomingSourceReferences = export.SourceReferences;
 
-      var compilationContext = _compiler.CompileProject(
-        projectContext,
-        incomingReferences,
-        incomingSourceReferences,
-        resourcesResolver);
+            var compilationContext = _compiler.CompileProject(
+              projectContext,
+              incomingReferences,
+              incomingSourceReferences,
+              resourcesResolver);
 
-      if (compilationContext == null)
-      {
-        return null;
-      }
+            if (compilationContext == null)
+            {
+                return null;
+            }
 
-      // Project reference
-      return new FSharpProjectReference(compilationContext);
-    }
+            // Project reference
+            return new FSharpProjectReference(compilationContext);
+        }
   }
 }

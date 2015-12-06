@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.Caching;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.CompilationAbstractions;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
-using Microsoft.Extensions.PlatformAbstractions;
+using System.Linq;
+using System.Collections.Immutable;
+using Microsoft.Extensions.CompilationAbstractions.Caching;
 
 namespace FSharp.Dnx
 {
@@ -51,7 +51,7 @@ namespace FSharp.Dnx
 
       if (_cacheContextAccessor.Current != null)
       {
-        _cacheContextAccessor.Current.Monitor(new FileWriteTimeCacheDependency(projectContext.ProjectFilePath));
+        _cacheContextAccessor.Current.Monitor(new Microsoft.Dnx.Compilation.Caching.FileWriteTimeCacheDependency(projectContext.ProjectFilePath));
 
         // Monitor the trigger {projectName}_BuildOutputs
         var buildOutputsName = name + "_BuildOutputs";
