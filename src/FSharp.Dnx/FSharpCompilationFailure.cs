@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using Microsoft.Dnx;
-using Microsoft.Dnx.Compilation;
+using Microsoft.Extensions.CompilationAbstractions;
 
 namespace FSharp.Dnx
 {

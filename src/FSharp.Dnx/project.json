@@ -5,16 +5,23 @@
     "warningsAsErrors": true
   },
   "dependencies": {
-    "Microsoft.Dnx.Compilation.Abstractions": "1.0.0-*",
-    "Microsoft.Dnx.Compilation": "1.0.0-*",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc2-*",
+    "Microsoft.Extensions.CompilationAbstractions": "1.0.0-rc2-*",
+    "Microsoft.Extensions.Logging": "1.0.0-rc2-*",
     "FSharp.Compiler.Service": "1.4.0.6",
     "FSharp.Core": "4.0.0.1",
+    "System.Collections.Immutable": "1.1.37",
     "YoloDev.Dnx.Json": { "type": "build", "version": "1.0.0-*" },
-    "Microsoft.Dnx.Runtime.Sources": { "type": "build", "version": "1.0.0-*" }
+    "Microsoft.Dnx.Runtime.Sources": { "type": "build", "version": "1.0.0-rc2-*" }
   },
   "frameworks": {
     "dnx451": {
-      "frameworkAssemblies": { "System.Runtime": "" }
+      "frameworkAssemblies": {
+        "System.Collections": "",
+        "System.IO": "",
+        "System.Threading.Tasks": "",
+        "System.Text.Encoding": ""
+      }
     }
   },
   "repository": {

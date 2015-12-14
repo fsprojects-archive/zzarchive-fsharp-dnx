@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.Caching;
+using Microsoft.Extensions.CompilationAbstractions;
+using Microsoft.Extensions.CompilationAbstractions.Caching;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace FSharp.Dnx
@@ -28,7 +28,8 @@ namespace FSharp.Dnx
     public IMetadataProjectReference CompileProject(
       CompilationProjectContext projectContext,
       Func<LibraryExport> referenceResolver,
-      Func<IList<ResourceDescriptor>> resourcesResolver)
+      Func<IList<ResourceDescriptor>> resourcesResolver,
+      string configuration)
     {
       var export = referenceResolver();
       if (export == null)

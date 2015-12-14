@@ -1,34 +1,34 @@
 namespace HelloMvc
 
-open System
+open System.Reflection
 open Microsoft.AspNet.Builder
+open Microsoft.AspNet.FileProviders
+open Microsoft.AspNet.Mvc.Razor
 open Microsoft.Extensions.DependencyInjection
-open Microsoft.Extensions.Logging
-open Microsoft.AspNet.Hosting
 
-type Startup(env: IHostingEnvironment) =
+type Startup() =
 
   // Set up application services
   member public x.ConfigureServices (services: IServiceCollection) =
-    let mvcBuilder = services.AddMvc ()
+    services.AddMvc () |> ignore
 
-    let viewAssemblies = 
-      [ "HelloMvc.Views" ]
-      |> List.map Reflection.Assembly.Load
-      |> Array.ofList
-    
-    mvcBuilder.AddPrecompiledRazorViews viewAssemblies |> ignore
-    //Microsoft.Extensions.DependencyInjection.MvcRazorMvcBuilderExtensions.AddPrecompiledRazorViews (mvcBuilder, System.Reflection.Assembly.Load "HelloMvc.Views") |> ignore
+    services.Configure(fun (options: RazorViewEngineOptions) ->
+        // Base namespace matches the resources added to the assembly from the EmbeddedResources folder.
+        options.FileProvider <- new EmbeddedFileProvider(
+            (x.GetType().GetTypeInfo().Assembly),
+            "HelloMvc.EmbeddedResources")
+    ) |> ignore
+
     ()
 
   // Configure pipeline
-  member public x.Configure (app: IApplicationBuilder, loggerFactory: ILoggerFactory) =
+  member public x.Configure (app: IApplicationBuilder) =
     //loggerFactory.AddConsole (fun (name, logLevel) -> true)
     app.UseDeveloperExceptionPage () |> ignore
 
     app.UseStaticFiles () |> ignore
 
     app.UseMvc (fun routes ->
-      routes.MapRoute (name = "default", template = "{controller=Home}/{action=Index}/{id?}") |> ignore
-
-      ()) |> ignore
+        routes.MapRoute (name = "default", template = "{controller=Home}/{action=Index}/{id?}") 
+        |> ignore ) 
+    |> ignore

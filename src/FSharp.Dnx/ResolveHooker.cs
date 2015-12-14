@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Microsoft.Dnx;
-using Microsoft.Dnx.Compilation;
+using Microsoft.Extensions.CompilationAbstractions;
 using Microsoft.FSharp.Compiler;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
+using Microsoft.Dnx.Runtime;
 
 namespace FSharp.Dnx
 {
@@ -28,8 +28,13 @@ namespace FSharp.Dnx
 
     private System.Reflection.Assembly HandleResolve(object sender, ResolveEventArgs args)
     {
-      if (args.Name.StartsWith("FSharp.Core", StringComparison.OrdinalIgnoreCase))
+      if (args.Name.StartsWith("FSharp.Core,", StringComparison.OrdinalIgnoreCase))
       {
+
+#if DEBUG
+        Logger.TraceInformation("[{0}]: HandleResolve '{1}'", GetType().Name, args.Name);
+#endif
+
         lock (l)
         {
           if (inner)

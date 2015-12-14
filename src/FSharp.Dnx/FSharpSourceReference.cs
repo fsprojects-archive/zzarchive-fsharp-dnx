@@ -1,5 +1,5 @@
 using System;
-using Microsoft.Dnx.Compilation;
+using Microsoft.Extensions.CompilationAbstractions;
 
 namespace FSharp.Dnx
 {

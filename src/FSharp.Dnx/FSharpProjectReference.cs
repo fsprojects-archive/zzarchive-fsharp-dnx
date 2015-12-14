@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using Microsoft.Dnx.Compilation;
+using Microsoft.Extensions.CompilationAbstractions;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Extensions.PlatformAbstractions;
 

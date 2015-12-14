@@ -5,8 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.Caching;
+using Microsoft.Extensions.CompilationAbstractions.Caching;
+using Microsoft.Extensions.CompilationAbstractions;
 using Microsoft.Dnx.Runtime;
 using Microsoft.FSharp.Compiler.SimpleSourceCodeServices;
 using YoloDev.Dnx.Json;
@@ -82,6 +82,18 @@ namespace FSharp.Dnx
         args.Add($"--doc:{Path.ChangeExtension(outFile, ".xml")}");
         args.AddRange(projectInfo.Files);
 
+        var resourcesDir = files.CreateDir();
+        foreach (var r in resourcesResolver())
+        {
+            Logger.TraceInformation("[{0}]: Resource: '{1}' ( filename: '{2}' )", GetType().Name, r.Name, r.FileName);
+            string resourcePath = Path.Combine(resourcesDir, r.FileName);
+            using (var fs = File.Create(resourcePath))
+            {
+                r.StreamFactory().CopyTo(fs);
+            }
+            args.Add($"--resource:{resourcePath},{r.Name}");
+        }
+
         // These are the metadata references being used by your project.
         // Everything in your project.json is resolved and normailzed here:
         // - Project references
@@ -107,7 +119,10 @@ namespace FSharp.Dnx
           args.Add($"-r:{fileName}");
         }
 
-        //Console.WriteLine(string.Join(Environment.NewLine, args));
+#if DEBUG
+        Logger.TraceInformation("[{0}]: Arguments '{1}'", GetType().Name, string.Join(Environment.NewLine, args));
+#endif
+
         var scs = new SimpleSourceCodeServices();
         var result = scs.Compile(args.ToArray());
         var errors = result.Item1.Select(FSharpDiagnosticMessage.CompilationMessage);
