@@ -1,18 +1,41 @@
+The flow is
 
-# prerequisites
+1. upgrade dnvm to latest unstable ( or install latest unstable and use that )
+2. restore dependencies with `dnu restore`
+3. run samples with `dnx run`/`dnx web` or tests with `dnx test`
 
-Not needed for visual studio solution, because Visual Studio read the dnvm  version from the `sdk` property of `global.json` ( https://github.com/aspnet/dnvm/issues/271 )
+NOTE:
 
+Upgrading dnvm change the `default` alias and the dnvm version in `PATH`.
 
-open a shell inside this repository directory
+It's a global config per user, and `default` alias is used by ide like Visual Studio if sdk property 
+in global.json file is not specified.
 
-``
-dnvm use 1.0.0-rc2-16308
-dnu restore
+dnvm doesnt [care about global.json](https://github.com/aspnet/dnvm/issues/271)
+
+## How to revert to latest stable version of dnvm
+
+To revert to latest stable version of dnvm do
+
+```
+dnvm upgrade
 ```
 
-dnvm doesnt care about global.json, so use the `version of sdk inside global.json`
+### 1- Upgrade to latest unstable dnvm
 
+Open a shell inside this repository directory
+
+```
+dnvm upgrade -u
+```
+
+### 2- Restore dependencies
+
+You can use the command
+
+```
+dnu restore
+```
 
 # Useful tips for dnvm/dnu/dnx
 

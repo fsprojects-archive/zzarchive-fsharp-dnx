@@ -1,13 +1,12 @@
 FSharp.Dnx
 ===
 
-This project is pinned to a specific version of [aspnet/dnx](github.com/aspnet/dnx) depending of branch
+This project depends on [aspnet/dnx](github.com/aspnet/dnx)
 
-
-| branch |                                  |
-|--------|----------------------------------|
-| master | aligned with development version |
-|        | of aspnet/dnx                    |
+| branch  | aspnet/dnx version  |
+|---------|---------------------|
+| master  | 1.0.0-rc2-*         |
+| release | 1.0.0-rc1-final     |
 
 # Usage
 
@@ -20,32 +19,29 @@ Examples app:
 
 more info in `docs/development.md`
 
-Use the `FSharp.Dnx.sln` solution
-
-or from a shell
-
 prepare the environment
 
 ```
-dnvm use 1.0.0-rc2-16308
+dnvm upgrade -u
 dnu restore
 ```
 
-## execute tests
+After that, you can:
 
-from `test/FSharp.Dnx.Test` directory
+- use the `FSharp.Dnx.sln` solution
+- execute commands from a shell
 
-```
-dnu build
-dnx test
-```
+NOTE: the `dnvm upgrade -u` install latest unstable version and change
+the `default` alias ( it's a global config per user, used by ides like Visual Studio )
+To revert to latest stable, do `dnvm upgrade`
 
-## run a sample command line app 
+## From shell
+
+### run a sample command line app 
 
 from `sample/HelloFSharp` directory
 
-``
-dnu build
+```
 dnx run
 ```
 
@@ -55,12 +51,11 @@ expected
 Hello from F#, running on DNX v4.5.1
 ```
 
-## run a sample asp.net mvc app
+### run a sample asp.net mvc app
 
 from `sample/HelloMvc` directory
 
-``
-dnu build
+```
 dnx web
 ```
 
@@ -74,3 +69,11 @@ Application started. Press Ctrl+C to shut down.
 
 open a brower in [http://localhost:5000](http://localhost:5000)
 
+
+### execute tests
+
+from `test/FSharp.Dnx.Test` directory
+
+```
+dnx test
+```
