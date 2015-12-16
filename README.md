@@ -5,7 +5,7 @@ This project depends on [aspnet/dnx](github.com/aspnet/dnx)
 
 | branch  | aspnet/dnx version  |
 |---------|---------------------|
-| master  | 1.0.0-rc2-*         |
+| master  | latest development version ( now 1.0.0-rc2-* ) |
 | release | 1.0.0-rc1-final     |
 
 # Usage
