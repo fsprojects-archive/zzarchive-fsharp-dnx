@@ -9,7 +9,7 @@
   "dependencies": {
     "FSharp.Dnx": { "type": "build", "version": "" },
     "xunit": "2.1.0",
-    "xunit.runner.dnx": "2.1.0-rc2-*"
+    "xunit.runner.dnx": "2.1.0-*"
   },
 
   "commands": {
