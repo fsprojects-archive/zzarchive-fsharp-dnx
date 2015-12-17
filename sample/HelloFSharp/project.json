@@ -3,6 +3,12 @@
   "dependencies": {
     "FSharp.Dnx": { "type": "build", "version": "" }
   },
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+  "commands": {
+    "HelloFSharp": "HelloFSharp"
+  },
   "frameworks": {
     "dnx451": { }
   },
