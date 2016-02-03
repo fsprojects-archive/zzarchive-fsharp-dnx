@@ -1,5 +1,8 @@
 {
   "version": "1.0.0-beta-*",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
   "resource": "EmbeddedResources/**",
   "dependencies": {
     "FSharp.Dnx": { "type": "build", "version": "" },
@@ -22,7 +25,7 @@
     "compilerType": "FSharp.Dnx.FSharpProjectCompiler"
   },
   "commands": {
-    "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.Kestrel"
+    "web": "HelloMvc"
   },
   "fsharp": {
     "files": [

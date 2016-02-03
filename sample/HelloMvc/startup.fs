@@ -2,6 +2,7 @@ namespace HelloMvc
 
 open System.Reflection
 open Microsoft.AspNet.Builder
+open Microsoft.AspNet.Hosting
 open Microsoft.AspNet.FileProviders
 open Microsoft.AspNet.Mvc.Razor
 open Microsoft.Extensions.DependencyInjection
@@ -29,6 +30,19 @@ type Startup() =
     app.UseStaticFiles () |> ignore
 
     app.UseMvc (fun routes ->
-        routes.MapRoute (name = "default", template = "{controller=Home}/{action=Index}/{id?}") 
-        |> ignore ) 
+        routes.MapRoute (name = "default", template = "{controller=Home}/{action=Index}/{id?}")
+        |> ignore)
     |> ignore
+
+type Program() =
+
+    // Set up entry point
+    static member Main(args) =
+        let hostingConfiguration = WebApplicationConfiguration.GetDefault args
+        let application =
+            WebApplicationBuilder()
+               .UseConfiguration(hostingConfiguration)
+                .UseStartup<Startup>()
+                .Build()
+
+        application.Run()
