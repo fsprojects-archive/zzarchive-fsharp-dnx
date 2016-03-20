@@ -199,13 +199,8 @@ namespace FSharp.Dnx
           throw new InvalidOperationException($"{path} did not contain an 'fsharp' configuration section.");
         }
       }
-
-      var fileNames = info.ValueAsStringArray("files");
       
-      if (fileNames == null)
-      {
-        fileNames = new string[0];
-      }
+      var fileNames = DiscoverProjectSources(projectDirectory);
       
       var autoDiscoverFsi = info.ValueAsBoolean("autoDiscoverFsi", true);
 
@@ -234,6 +229,31 @@ namespace FSharp.Dnx
 
       return new FSharpProjectInfo(autoDiscoverFsi, files.ToImmutableList());
     }
+    
+    private static IEnumerable<string> DiscoverProjectSources(string path)
+    {
+        List<string> files = new List<string>();
+        Queue<string> subFolderQueue = new Queue<string>();
+        
+        subFolderQueue.Enqueue(path);
+        
+        while(subFolderQueue.Count > 0)
+        {
+            string subFolderPath = subFolderQueue.Dequeue();
+            
+            foreach(string filename in Directory.GetFiles(subFolderPath,"*.fs*"))
+            {
+                files.Add(filename);
+            }
+            
+            foreach(string newSubFolder in Directory.GetDirectories(subFolderPath))
+            {
+                subFolderQueue.Enqueue(newSubFolder);
+            }
+        }
+        
+        return files;
+    } 
 
     private static bool CheckPdbGenerationSupport()
     {
